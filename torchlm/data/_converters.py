@@ -44,16 +44,18 @@ class LandmarksWFLWConverter(BaseConverter):
             force_normalize: Optional[bool] = False,
             force_absolute_path: Optional[bool] = True
     ):
-        super(LandmarksWFLWConverter, self).__init__()
-        self.data_dir = data_dir
-        self.save_dir = save_dir
-        self.scale = 1. + extend
-        self.target_size = target_size
-        self.rebuild = rebuild
-        self.force_normalize = force_normalize
-        self.force_absolute_path = force_absolute_path
-        assert os.path.exists(self.data_dir), "WFLW dataset not found."
+        
+        super(LandmarksWFLWConverter, self).__init__()  # 调用父类的构造函数，以确保父类的所有属性都被正确地初始化。
+        self.data_dir = data_dir  # 将输入参数data_dir赋给类的data_dir属性，这个属性表示数据的目录路径。
+        self.save_dir = save_dir  # 将输入参数save_dir赋给类的save_dir属性，这个属性表示保存处理过的数据的目录路径。
+        self.scale = 1. + extend  # 将输入参数extend加1后赋给类的scale属性，这个属性可能表示图像或者标注的缩放比例。
+        self.target_size = target_size  # 将输入参数target_size赋给类的target_size属性，这个属性可能表示目标输出图像的大小。
+        self.rebuild = rebuild  # 将输入参数rebuild赋给类的rebuild属性，这个属性可能表示是否需要重建或重新计算某些数据。
+        self.force_normalize = force_normalize  # 将输入参数force_normalize赋给类的force_normalize属性，这个属性可能表示是否需要强制进行数据归一化。
+        self.force_absolute_path = force_absolute_path  # 将输入参数force_absolute_path赋给类的force_absolute_path属性，这个属性可能表示在处理文件路径时，是否需要强制使用绝对路径。
+        assert os.path.exists(self.data_dir), "WFLW dataset not found."  # 检查self.data_dir路径是否存在。如果不存在，程序将抛出一个AssertionError错误，错误信息是"WFLW dataset not found."。
         os.makedirs(save_dir, exist_ok=True)
+
 
         self.resize_op = None
         if target_size is not None:
