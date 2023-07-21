@@ -56,3 +56,22 @@ If the label in annotation_path is already normalized by image size, please set 
 '''
 ```
 Here is an example of [WFLW](torchlm/data/_converters.py) to show you how to prepare the dataset, also see [test/data.py](test/data.py).
+
+
+# 输出解释
+
+Input Name: img, Input Shape: [1, 3, 256, 256] Output Names: ['outputs_cls', 'outputs_x', 'outputs_y', 'outputs_nb_x', 'outputs_nb_y'], Output Shapes: [[1, 98, 8, 8], [1, 98, 8, 8], [1, 98, 8, 8], [1, 980, 8, 8], [1, 980, 8, 8]]
+
+在解释这个输出之前，我们首先需要了解一些背景知识。在计算机视觉和深度学习中，关键点检测是一种常见的任务，用于检测图像中某些特定对象的关键点位置，比如人脸关键点检测就是要检测人脸上的眼睛、鼻子、嘴等关键部位的位置。在训练关键点检测模型时，我们需要输入图像，然后模型会输出每个关键点的位置。
+
+在这个例子中，输入图像的形状是 [1, 3, 256, 256]，这通常表示有1张图像（batch size为1），每张图像有3个颜色通道（RGB），图像的大小为 256x256 像素。
+
+模型的输出包含5个部分：'outputs_cls', 'outputs_x', 'outputs_y', 'outputs_nb_x', 'outputs_nb_y'，每个部分的输出形状分别为：[1, 98, 8, 8], [1, 98, 8, 8], [1, 98, 8, 8], [1, 980, 8, 8], [1, 980, 8, 8]。
+
+'outputs_cls': 这部分可能表示模型预测的每个关键点的置信度或类别。98可能代表预测的关键点的数量，8x8可能表示将原始图像分割成的网格的大小，每个网格都会有一个类别的预测。
+
+'outputs_x' 和 'outputs_y': 这两部分可能表示每个关键点在x轴和y轴上的位置。98同样可能代表预测的关键点的数量，8x8可能表示将原始图像分割成的网格的大小，每个网格都会有一个坐标预测。
+
+'outputs_nb_x' 和 'outputs_nb_y': 这两部分可能表示更高精度的坐标预测，可能通过某种方式对原始预测进行了改进或精细化。980可能表示的是某种变换或拓展后的关键点数量，8x8仍然可能表示将原始图像分割成的网格的大小。
+
+以上解释是对模型输入输出的一种可能的理解，具体的含义还需要参考模型的设计和实现的文档或源码。
