@@ -34,14 +34,14 @@ im：输入图像，我们在这个图像上绘制矩形。
 return im.astype(np.uint8) 这一行返回绘制了矩形的图像。.astype(np.uint8) 是把图像的数据类型转换为无符号 8 位整型，这是最常用的图像数据类型。'''
 
 def draw_landmarks(
-        img: np.ndarray,
-        landmarks: np.ndarray,
-        font: float = 0.25,
-        circle: int = 2,
-        text: bool = False,
-        color: Optional[Tuple[int, int, int]] = (0, 255, 0),
-        offset: int = 5,
-        thickness: int = 1
+        img: np.ndarray,  #这是输入的图像，它应该是一个numpy数组。
+        landmarks: np.ndarray,  #是需要绘制的关键点的坐标，它也是一个numpy数组。通常每一个关键点包含两个坐标（x, y）。
+        font: float = 0.25,   #这是绘制关键点标号时使用的字体大小，它的默认值是0.25。
+        circle: int = 2,  #用来绘制关键点的圆的半径，它的默认值是2。
+        text: bool = False,  #这个参数决定是否在每个关键点旁边绘制对应的编号。默认情况下，这个参数是False，也就是说不绘制关键点的编号。
+        color: Optional[Tuple[int, int, int]] = (0, 255, 0),  #这是用来绘制关键点和关键点编号的颜色，它是一个包含三个元素的元组，分别表示RGB颜色的红、绿、蓝三个通道。默认情况下，这个颜色是绿色。
+        offset: int = 5,  #这是关键点编号相对于关键点的偏移量，它的默认值是5。
+        thickness: int = 1  #这是绘制关键点编号时使用的线的粗细，它的默认值是1。
 ) -> np.ndarray:
     im = img.astype(np.uint8).copy()  # 创建输入图像的副本，并将其数据类型转换为uint8
     if landmarks.ndim == 2:  # 如果landmarks的维度是2
