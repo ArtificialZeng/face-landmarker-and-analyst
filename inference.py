@@ -17,6 +17,22 @@ torchlm.runtime.bind(
   pipnet_ort(onnx_path="/home/ailab/Downloads/pipnet_resnet18.onnx", num_nb=10,
              num_lms=98, net_stride=32, input_size=256, meanface_type="wflw")
 )
+'''
+torchlm.runtime.bind: 这是一个方法用于将模型绑定到一个运行时环境。根据名称推测，torchlm可能是一个库或者模块，runtime可能是关于运行时的一个模块，bind可能是一个将模型绑定到运行时的函数。
+
+pipnet_ort: 这个应该是一个模型类的实例，可能表示一个采用ONNX格式的预训练模型。
+
+onnx_path="/home/ailab/Downloads/pipnet_resnet18.onnx": 这个参数表示ONNX模型文件的路径。
+
+num_nb=10: 这个参数可能表示邻接点的数量。在关键点检测任务中，可能表示每个关键点周围的邻接点的数量。
+
+num_lms=98: 这个参数可能表示模型需要检测的关键点的数量。在此模型中，它需要检测98个关键点。
+
+net_stride=32: 这个参数可能表示模型在进行卷积操作时的步长。步长决定了卷积窗口在输入矩阵上移动的速度。
+
+input_size=256: 这个参数表示模型输入图像的大小。在这里，输入图像的大小是256x256。
+
+meanface_type="wflw": 这个参数可能表示预处理输入图像时使用的平均脸的类型。"wflw"可能是一个具体的平均脸类型。'''
 
 # 使用OpenCV的imread函数读取命令行参数指定的图像文件
 image = cv2.imread(args.img)
