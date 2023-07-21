@@ -46,12 +46,13 @@ def draw_landmarks(
     im = img.astype(np.uint8).copy()  # 创建输入图像的副本，并将其数据类型转换为uint8
     if landmarks.ndim == 2:  # 如果landmarks的维度是2
         landmarks = np.expand_dims(landmarks, axis=0)  # 在axis=0的位置增加一个维度
-    for i in range(landmarks.shape[0]):  # 遍历landmarks的第一维度
-        for j in range(landmarks[i].shape[0]):  # 遍历landmarks的第二维度
-            x, y = landmarks[i, j, :].astype(int).tolist()  # 获取关键点的坐标，并转换为列表
+    for i in range(landmarks.shape[0]):  # 遍历landmarks的第一维度，这个循环是对landmarks中的每一个关键点组进行循环。landmarks的shape[0]返回关键点组的数量，每一组关键点可以理解为对应一张图像的所有关键点。
+        for j in range(landmarks[i].shape[0]):  # 遍历landmarks的第二维度，这个内部循环是对给定关键点组内的每一个关键点进行循环。
+            x, y = landmarks[i, j, :].astype(int).tolist()  # 获取关键点的坐标，并转换为列表，从当前的关键点组中获取单个关键点的坐标，并转换为整数类型。
             cv2.circle(im, (x, y), circle, color, -1)  # 使用cv2.circle在图像上绘制圆形，表示关键点
-            if text:  # 如果需要在关键点旁边绘制文本
-                b = np.random.randint(0, 255)  # 生成随机颜色
+            #在图像上以给定的坐标(x, y)为中心，以给定的半径(circle)绘制一个颜色为color的实心圆（因为最后一个参数是-1，表示实心）。
+            if text:  # 如果需要在关键点旁边绘制文本，这是一个条件语句，当text为True时，才会执行下面的代码，也就是在每个关键点旁边添加标签。
+                b = np.random.randint(0, 255)  # 生成随机颜色 这三行代码生成了一个随机的RGB颜色，这个颜色将用于绘制关键点的编号。
                 g = np.random.randint(0, 255)
                 r = np.random.randint(0, 255)
                 cv2.putText(im, '{}'.format(i), (x, y - offset), cv2.FONT_ITALIC, font, (b, g, r), thickness)  # 使用cv2.putText在图像上绘制文本
