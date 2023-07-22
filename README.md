@@ -9,7 +9,11 @@ largely borrowed from [torchlm](https://github.com/DefTruth/torchlm) but slightl
       * [_utils.py](/torchlm/models/pipnet/_utils.py)
         * func _get_meanface  #获取平均脸坐标
         * func _normalize
+       
+
+
     
+/home/ailab/.vscode/extensions/ms-python.vscode-pylance-2023.7.30/dist/typeshed-fallback/stdlib    
 
 /torchlm/models/pipnet/_utils.py
 
