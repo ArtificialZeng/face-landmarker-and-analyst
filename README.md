@@ -13,7 +13,31 @@ largely borrowed from [torchlm](https://github.com/DefTruth/torchlm) but slightl
 
 
     
-/home/ailab/.vscode/extensions/ms-python.vscode-pylance-2023.7.30/dist/typeshed-fallback/stdlib    
+[/home/ailab/.vscode/extensions/ms-python.vscode-pylance-2023.7.30/dist/typeshed-fallback/stdlib/genericpath.pyi](/.vscode/genericpath.pyi)    
+
+const __all__,func commonprefix, func commonprefix, func commonprefix, func commonprefix,
+func
+commonprefix
+func
+exists
+func
+getsize
+func
+isfile
+func
+isdir
+func
+getatime
+func
+getmtime
+func
+getctime
+func
+samefile
+func
+sameopenfile
+func
+samestat
 
 /torchlm/models/pipnet/_utils.py
 
