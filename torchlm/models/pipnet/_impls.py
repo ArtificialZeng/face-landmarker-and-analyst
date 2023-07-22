@@ -67,30 +67,40 @@ class _PIPNetImpl(nn.Module, LandmarksTrainableBase):
 
     # 定义了一个方法set_custom_meanface，它接受一个字符串参数custom_meanface_file_or_string
     # 这个方法可能是用来设置自定义的meanface
+
+    # 定义了一个名为set_custom_meanface的方法，这个方法接收一个字符串参数custom_meanface_file_or_string，并返回一个布尔值
     def set_custom_meanface(
             self,
             custom_meanface_file_or_string: str
     ) -> bool:
-
+    
         """
         :param custom_meanface_file_or_string: a long string or a file contains normalized
         or un-normalized meanface coords, the format is "x0,y0,x1,y1,x2,y2,...,xn-1,yn-1".
         :return: status, True if successful.
         """
+        # 尝试执行以下操作
         try:
+            # 定义一个变量custom_meanface_type并赋值为"custom"
             custom_meanface_type = "custom"
+            # 检查custom_meanface_file_or_string是否是一个文件路径
             if os.path.isfile(custom_meanface_file_or_string):
+                # 如果是一个文件路径，打开这个文件并读取第一行存到custom_meanface_string中
                 with open(custom_meanface_file_or_string) as f:
                     custom_meanface_string = f.readlines()[0]
             else:
+                # 如果不是一个文件路径，将custom_meanface_file_or_string赋值给custom_meanface_string
                 custom_meanface_string = custom_meanface_file_or_string
-
+    
+            # 调用_get_meanface函数，并传入custom_meanface_string和self.num_nb作为参数
+            # 获取返回的五个值
             custom_meanface_indices, custom_reverse_index1, \
             custom_reverse_index2, custom_max_len, custom_meanface_lms = _get_meanface(
                 meanface_string=custom_meanface_string, num_nb=self.num_nb)
-
-            # check landmarks number
+    
+            # 检查custom_meanface_lms是否等于self.num_lms
             if custom_meanface_lms != self.num_lms:
+                # 如果custom_meanface_lms不等于self.num_lms，发出警告
                 warnings.warn(
                     f"custom_meanface_lms != self.num_lms, "
                     f"{custom_meanface_lms} != {self.num_lms}"
@@ -98,26 +108,33 @@ class _PIPNetImpl(nn.Module, LandmarksTrainableBase):
                     f"Please check and setup meanface carefully before"
                     f"running PIPNet ..."
                 )
+                # 更新各个meanface相关属性为对应的custom_变量
                 self.meanface_type = custom_meanface_type
                 self.meanface_indices = custom_meanface_indices
                 self.reverse_index1 = custom_reverse_index1
                 self.reverse_index2 = custom_reverse_index2
                 self.max_len = custom_max_len
-                # update num_lms
+                # 更新num_lms为custom_meanface_lms
                 self.num_lms = custom_meanface_lms
+                # 设置meanface_status为True
                 self.meanface_status = True
             else:
-                # replace if successful
+                # 如果custom_meanface_lms等于self.num_lms，更新各个meanface相关属性为对应的custom_变量
+                # 设置meanface_status为True
                 self.meanface_type = custom_meanface_type
                 self.meanface_indices = custom_meanface_indices
                 self.reverse_index1 = custom_reverse_index1
                 self.reverse_index2 = custom_reverse_index2
                 self.max_len = custom_max_len
                 self.meanface_status = True
+        # 如果在try块中的代码抛出了异常，执行以下代码
         except:
+            # 将meanface_status设为False
             self.meanface_status = False
-
+    
+        # 返回meanface_status
         return self.meanface_status
+
 
     def _set_default_meanface(self):
         if self.meanface_type is not None:
