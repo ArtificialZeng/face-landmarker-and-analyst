@@ -19,15 +19,17 @@ _PIPNet_Output_Type = Tuple[Tensor, Tensor, Tensor, Tensor, Tensor]
 _PIPNet_Loss_Output_Type = Tuple[Tensor, Tensor, Tensor, Tensor, Tensor]
 
 
+# 这个类_PIPNetImpl继承自PyTorch的nn.Module类和用户自定义的LandmarksTrainableBase类
 class _PIPNetImpl(nn.Module, LandmarksTrainableBase):
 
+    # 定义初始化函数，参数都有默认值
     def __init__(
             self,
-            num_nb: int = 10,
-            num_lms: int = 68,
-            input_size: int = 256,
-            net_stride: int = 32,
-            meanface_type: Optional[str] = None
+            num_nb: int = 10,  # 用于NRM的最近邻标记点的数量，默认值为10
+            num_lms: int = 68,  # 输入/输出标记点的数量，默认值为68
+            input_size: int = 256,  # PIPNet的输入大小，默认值为256
+            net_stride: int = 32,  # PIPNet的网络步幅，默认值为32，该值应为32、64、128之一
+            meanface_type: Optional[str] = None  # PIPNet的meanface类型，没有默认值
     ):
         """
         :param num_nb: the number of Nearest-neighbor landmarks for NRM, default 10
@@ -41,25 +43,35 @@ class _PIPNetImpl(nn.Module, LandmarksTrainableBase):
             # 64         4x4
             # 32         8x8
         """
+        # 调用父类的构造函数，初始化父类的属性
         super(_PIPNetImpl, self).__init__()
+        # 确保net_stride的值在(32, 64, 128)之间
         assert net_stride in (32, 64, 128)
+        # 设置_PIPNetImpl的一些属性，并为其赋予默认值
         self.num_nb = num_nb
         self.num_lms = num_lms
         self.input_size = input_size
         self.net_stride = net_stride
-        # setup default meanface
+        # 设置默认的meanface，初始设为False
         self.meanface_status = False
         self.meanface_type = meanface_type
+        # 初始化meanface_indices为空列表
         self.meanface_indices: List[List[int]] = [[]]
+        # 初始化reverse_index1和reverse_index2为空列表
         self.reverse_index1: List[int] = []
         self.reverse_index2: List[int] = []
+        # 初始化max_len为-1
         self.max_len: int = -1
+        # 调用_set_default_meanface()方法，可能是设置默认的meanface
         self._set_default_meanface()
 
+    # 定义了一个方法set_custom_meanface，它接受一个字符串参数custom_meanface_file_or_string
+    # 这个方法可能是用来设置自定义的meanface
     def set_custom_meanface(
             self,
             custom_meanface_file_or_string: str
     ) -> bool:
+
         """
         :param custom_meanface_file_or_string: a long string or a file contains normalized
         or un-normalized meanface coords, the format is "x0,y0,x1,y1,x2,y2,...,xn-1,yn-1".
