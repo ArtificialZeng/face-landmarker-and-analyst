@@ -95,25 +95,34 @@ class _PIPNetORT(LandmarksDetBase):
 
 
     def set_custom_meanface(
+    def set_custom_meanface(
             self,
             custom_meanface_file_or_string: str
     ) -> bool:
+    # 定义一个函数"set_custom_meanface"，这个函数接收一个参数custom_meanface_file_or_string，它可能是一个文件路径或者一个字符串。
+
         """
         :param custom_meanface_file_or_string: a long string or a file contains normalized
         or un-normalized meanface coords, the format is "x0,y0,x1,y1,x2,y2,...,xn-1,yn-1".
         :return: status, True if successful.
         """
+        # 这部分是函数的文档字符串，对函数的参数和返回值进行了解释。
+
         try:
             custom_meanface_type = "custom"
+            # 设置自定义面部关键点的类型为"custom"。
+
             if os.path.isfile(custom_meanface_file_or_string):
                 with open(custom_meanface_file_or_string) as f:
                     custom_meanface_string = f.readlines()[0]
             else:
                 custom_meanface_string = custom_meanface_file_or_string
+            # 检查参数custom_meanface_file_or_string是否为文件，如果是文件，就读取文件的第一行，否则直接使用输入的字符串。
 
             custom_meanface_indices, custom_reverse_index1, \
             custom_reverse_index2, custom_max_len, custom_meanface_lms = get_meanface(
                 meanface_string=custom_meanface_string, num_nb=self.num_nb)
+            # 调用get_meanface函数，获取面部关键点的信息。
 
             # check landmarks number
             if custom_meanface_lms != self.num_lms:
@@ -124,15 +133,19 @@ class _PIPNetORT(LandmarksDetBase):
                     f"Please check and setup meanface carefully before"
                     f"running PIPNet ..."
                 )
+                # 如果自定义的面部关键点数量与预期不符，发出警告。
+
                 self.meanface_type = custom_meanface_type
                 self.meanface_indices = custom_meanface_indices
                 self.reverse_index1 = custom_reverse_index1
                 self.reverse_index2 = custom_reverse_index2
                 self.max_len = custom_max_len
-                # update num_lms
+                # 更新 num_lms
                 self.num_lms = custom_meanface_lms
                 self.meanface_status = True
             else:
+                # 如果自定义的面部关键点数量与预期相符，进行下列操作。
+
                 # replace if successful
                 self.meanface_type = custom_meanface_type
                 self.meanface_indices = custom_meanface_indices
@@ -140,10 +153,15 @@ class _PIPNetORT(LandmarksDetBase):
                 self.reverse_index2 = custom_reverse_index2
                 self.max_len = custom_max_len
                 self.meanface_status = True
+            # 在不抛出异常的情况下，更新类的属性。
+
         except:
             self.meanface_status = False
+            # 如果在尝试执行以上代码时发生任何错误，把meanface_status设置为False。
 
         return self.meanface_status
+        # 返回meanface_status的值，如果设置自定义面部关键点成功，返回True，否则返回False。
+
 
     def _set_default_meanface(self):
         if self.meanface_type is not None:
