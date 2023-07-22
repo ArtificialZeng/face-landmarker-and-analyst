@@ -31,6 +31,7 @@ def _normalize(
 
 
 class _PIPNetORT(LandmarksDetBase):
+    # 定义了一个名为"_PIPNetORT"的类，该类继承了"LandmarksDetBase"基类。
 
     def __init__(
             self,
@@ -41,13 +42,21 @@ class _PIPNetORT(LandmarksDetBase):
             net_stride: Optional[int] = 32,
             meanface_type: Optional[str] = None
     ):
+    # 这是"_PIPNetORT"类的构造函数，定义了类的一些属性和默认值。
+
         super(_PIPNetORT, self).__init__()
+        # 调用父类的构造函数。
+
         assert os.path.exists(onnx_path)
+        # 确保onnx模型的文件路径存在。
+
         self.onnx_path = onnx_path
         self.num_nb = num_nb
         self.num_lms = num_lms
         self.input_size = input_size
         self.net_stride = net_stride
+        # 设置类的属性。
+
         # setup default meanface
         self.meanface_status = False
         self.meanface_type = meanface_type
@@ -55,7 +64,11 @@ class _PIPNetORT(LandmarksDetBase):
         self.reverse_index1: List[int] = []
         self.reverse_index2: List[int] = []
         self.max_len: int = -1
+        # 设置默认的平均面部关键点。
+
         self._set_default_meanface()
+        # 调用方法设置默认的平均面部关键点。
+
         # ORT settings
         self.providers = ort.get_available_providers()
         self.device = ort.get_device()
@@ -63,10 +76,14 @@ class _PIPNetORT(LandmarksDetBase):
             self.onnx_path,
             providers=self.providers
         )
+        # 设置ORT的设定，获取可用的设备和设置推断会话。
+
         self.input_name = self.session.get_inputs()[0].name
         self.input_shape = self.session.get_inputs()[0].shape
         self.output_names = [x.name for x in self.session.get_outputs()]
         self.output_shapes = [x.shape for x in self.session.get_outputs()]
+        # 获取输入和输出的名字和形状。
+
         print(f"PIPNetORT Running Device: {self.device},"
               f" Available Providers: {self.providers}\n"
               f"Model Loaded From: {self.onnx_path}\n"
@@ -74,6 +91,8 @@ class _PIPNetORT(LandmarksDetBase):
               f" Input Shape: {self.input_shape}"
               f" Output Names: {self.output_names},"
               f" Output Shapes: {self.output_shapes}")
+              # 打印有关设备、提供者、模型路径、输入输出名字和形状的信息。
+
 
     def set_custom_meanface(
             self,
