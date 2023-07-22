@@ -1,5 +1,17 @@
 # face-landmarker-and-analyst
 largely borrowed from [torchlm](https://github.com/DefTruth/torchlm) but slightly difference.
+# tree Structure
+
+
+* [/torchlm](./torchlm) 
+  * [/torchlm/models/](/torchlm/models/)
+    * [/torchlm/models/pipnet/](/torchlm/models/pipnet/)
+      * [_utils.py](/torchlm/models/pipnet/_utils.py)
+        * func _get_meanface  #获取平均脸坐标
+        * func _normalize
+    
+
+/torchlm/models/pipnet/_utils.py
 
 # How to run
 
